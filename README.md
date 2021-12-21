@@ -56,7 +56,7 @@ React의 선언형 UI 패러다임과 JavaScript를 통해 기존의 네이티�
 5. CocoaPods
    Mac이나 IOS 개발에 사용되는 라이브러리를 관리해주는 도구
    이는 반드시 Ruby 환경에서 설치해주어야 한다.
-   <img src="../src/rosetta.png"></img>
+   <img src="../../src/rosetta.png"></img>
 
 #### React Native 프로젝트 생성 방법
 
