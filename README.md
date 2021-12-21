@@ -32,8 +32,8 @@ React의 선언형 UI 패러다임과 JavaScript를 통해 기존의 네이티�
    페이스북에서 제작한 파일 시스템 변경 감지 도구.
    RN에서 왓치맨은 소스코드의 변화를 감지하고 자동으로 빌드하여 화면에 업로드하는 역할을 담당.
 
-   ```brew install watchman
-
+   ```
+   rew install watchman
    ```
 
 3. [Node JS](https://nodejs.org/ko/)
@@ -42,7 +42,6 @@ React의 선언형 UI 패러다임과 JavaScript를 통해 기존의 네이티�
 
    ```
    brew install node
-
    ```
 
 4. Xcode
@@ -57,7 +56,7 @@ React의 선언형 UI 패러다임과 JavaScript를 통해 기존의 네이티�
 5. CocoaPods
    Mac이나 IOS 개발에 사용되는 라이브러리를 관리해주는 도구
    이는 반드시 Ruby 환경에서 설치해주어야 한다.
-   ![Rosetta](../src/rosetta.png)
+   <img src="../src/rosetta.png"></img>
 
 #### React Native 프로젝트 생성 방법
 
