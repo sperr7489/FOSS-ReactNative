@@ -56,7 +56,9 @@ React의 선언형 UI 패러다임과 JavaScript를 통해 기존의 네이티�
 5. CocoaPods
    Mac이나 IOS 개발에 사용되는 라이브러리를 관리해주는 도구
    이는 반드시 Ruby 환경에서 설치해주어야 한다.
-   ![Rosetta](../src/rosetta.png)<br>
+
+   <img width="200" alt="스크린샷 2021-12-21 오후 8 30 14" src="https://user-images.githubusercontent.com/71534899/146923061-6332f92f-c7d6-443f-ade5-5829fdccb618.png">
+   <br>
    위의 사진과 같이 <em>Rosetta를 사용하여 열기<em>를 클릭한 후에 터미널을 열고 다음과 같은 커맨드를 입력해주어야 한다. **반드시 이 설정을 해주어야 한다.**
 
    ```
@@ -99,3 +101,104 @@ npx react-native run-ios
 반드시 React Native 프로젝트 폴더 내에서 실행해주어야만 한다.
 
 이 폴더 안에 IOS 라는 폴더가 있는데 이것을 빌드하여 IOS용 모바일 앱을 실행시키는 과정이다.
+
+#### Navigation view
+
+Navigation을 Stack 형태로 구현 => Stack Navigation
+
+현재 화면 위에 다른 화면을 쌓으면서 화면을 이동하는 방식
+
+새로운 화면을 스택 구조로 push하여 쌓이기 때문에
+가장 위에 있는 화면을 pop하면 이전 화면으로 돌아갈 수 있음.
+
+##### 개발 순서
+
+1. 프로젝트 폴더 내의 App.js의 코드를 전부 삭제하고 다음 코드를 입력.
+
+   ```
+   import App from './src/App';
+
+   export default App;
+   ```
+
+2. src 폴더를 새로 만들고 그 곳에 App.js 파일 생성.
+
+3. Stack Navigation 구현을 위한 Dependency 추가
+
+   ```
+   npm install @react-navigation/native @react-navigation/native-stack
+   ```
+
+   ```
+   npm install react-native-screens react-native-safe-area-context
+   ```
+
+4. Cocoapods를 최신으로 업데이트 해주기 위해 다음 코드 입력
+
+   ```
+   cd ios
+   pod install
+   cd ..
+   ```
+
+   React Native 개발을 할 때 이 부분을 생략해서 오류가 발생하는 경우가 다수 있다.
+
+   반드시 Cocoapods를 dependency가 추가되고 나서 업데이트 하는 습관을 기르는 것이 중요하다.
+
+   IOS 개발에 사용되는 라이브러리를 관리해주는 도구이기 때문에 이를 최신화 해주지 않으면 해당 Dependency를
+   인지할 수 없다는 _error_ 가 뜨는 것을확인할 수 있다.
+
+5. Navigation 구현에 필요한 Component들을 import하고 코드 작성
+
+   ```js
+   import * as React from "react";
+   import { NavigationContainer } from "@react-navigation/native";
+   import { createNativeStackNavigator } from "@react-navigation/native-stack";
+   import { Button, Text } from "react-native";
+
+   const Stack = createNativeStackNavigator();
+
+   const HomeScreen = ({ navigation }) => {
+     return (
+       <Button
+         title="Go to kichang's profile"
+         onPress={() => navigation.navigate("Profile", { name: "kichang" })}
+       />
+     );
+   };
+   const ProfileScreen = ({ navigation, route }) => {
+     return <Text>This is {route.params.name}'s profile</Text>;
+   };
+
+   const App = () => {
+     return (
+       <NavigationContainer>
+         <Stack.Navigator>
+           <Stack.Screen
+             name="Home"
+             component={HomeScreen}
+             options={{ title: "Welcome" }}
+           />
+           <Stack.Screen name="Profile" component={ProfileScreen} />
+         </Stack.Navigator>
+       </NavigationContainer>
+     );
+   };
+   export default App;
+   ```
+
+   - NavigationContainer안에 Stack.Navigator로 Stack Navigation에 대한 컨테이너를 만듬.
+     Stack.screen의 순서대로 screen에 대한 Stack이 쌓이는 것이다.
+
+   - name Props를 반드시 해당 컴포넌트에 대한 navaigate처리 시의 name과 동일하게 mapping해주어야만한다.
+   - Stack.screen의 component Props를 통해서 해당 Stack이 나타내는 screen을 정의할 수 있다.
+
+   - HomeScreen에서 버튼에 핸들러를 작성한다.
+
+     이는 "Profile"이라는 이름을 가진 screen으로 이동할 것임을 뜻하고 Route라는 Props의 name이라는 내부 Props로 *kichang*이라는 데이터를 넘겨주는 의미이다.
+
+     Profile screen에서는 이를 route.params.name을 통해 전달받은 data를 화면에 출력할 수 있게 된다.
+
+---
+
+### React Native에 대한 모든 정보는 공식홈페이지가 기반이 된다. 하지만 셋업을 진행하는 과정에서 공식 홈페이지가 구체적으로 다루지 않는 부분이 존재하고 Navigation에 대해서도 원리적인 것에는 다소 설명이 부족하다. 이 git project를 통해 독자가 보다 쉽고 빠르게 이해하며 React native에 한 발 다가갈 수 있으면 좋겠다.
